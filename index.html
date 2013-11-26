@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+
+    <title>hoodie</title>
+
+    <meta name="description" content="A quick talk on hoodie plugins">
+    <meta name="author" content="Alan Shaw">
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <link rel="stylesheet" href="css/reveal.min.css">
+    <link rel="stylesheet" href="css/theme/hoodie.css" id="theme">
+
+    <!-- For syntax highlighting -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+
+    <!-- If the query includes 'print-pdf', use the PDF print sheet -->
+    <script>
+      document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+    </script>
+
+    <!--[if lt IE 9]>
+    <script src="lib/js/html5shiv.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="reveal">
+
+      <!-- Any section element inside of this container is displayed as a slide -->
+      <div class="slides">
+        <section>
+          <h1 id="logo"><img src="img/f5af4e56.hoodie_logo.png"/></h1>
+          <h3>plugins</h3>
+        </section>
+
+        <section>
+          <h2>wait, what is?</h2>
+          <p>
+            Hoodie is a offline first web framework that allows you to develop applications as if there were no backend.
+          </p>
+        </section>
+
+        <section>
+          <h1>plugin?</h1>
+        </section>
+
+        <section>
+          <h2>plug...in?</h2>
+          <pre><code data-trim>
+hoodie install &lt;plugin&gt;
+          </code></pre>
+        </section>
+
+        <section>
+          <h2>where are they?</h2>
+          <p>Plugins are just npm modules whose names begin with <code>hoodie-plugin-</code></p>
+        </section>
+
+        <section>
+          <h1><a href="http://plugins.hood.ie">plugins.hood.ie</a></h1>
+          <img src="img/plugins-www.png" class="raw">
+        </section>
+
+        <section>
+          <h2><a href="https://npmjs.org/package/hoodie-plugin-plugins">hoodie-plugin-plugins</a></h2>
+          <ul>
+            <li>Server side plugin</li>
+            <li>Does a <a href="https://github.com/mikeal/couchwatch">couchwatch</a></li>
+            <li>Creates a read only couch</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>usage</h2>
+          <pre><code data-trim>
+var store = hoodie.open("hoodie-plugin-plugins")
+
+store.connect()
+
+store.findAll("plugin").done(function (plugins) {
+  // Render, or whatever
+})
+          </code></pre>
+        </section>
+
+        <section>
+          <h2><a href="https://npmjs.org/package/hoodie-plugin-reactive">hoodie-plugin-reactive</a></h2>
+          <ul>
+            <li>Client side plugin</li>
+            <li>Uses <a href="http://www.ractivejs.org/">ractive.js</a></li>
+            <li>Proxy your hoodie stores</li>
+            <li>Re-render templates when data ch-ch-changes</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>usage</h2>
+          <pre><code data-trim class="javascript">
+var html = '&lt;ul&gt;{{#todos}}&lt;li&gt;{{title}}&lt;/li&gt;{{/todos}}&lt;/ul&gt;'
+
+hoodie.reactive($('#todolist'), html, function (store) {
+  var defer = hoodie.defer()
+
+  store.findAll('todo').done(function (todos) {
+    defer.resolve({todos: todos})
+  })
+
+  return defer.promise()
+})
+          </code></pre>
+        </section>
+
+        <section>
+          <h2><code>hoodie.reaction</code> demo</h2>
+        </section>
+
+        <section>
+          <h1>how to</h1>
+        </section>
+
+        <section>
+          <h2>how to</h2>
+          <h3>(client)</h3>
+          <p>hoodie.&lt;plugin&gt;.js</p>
+          <pre><code data-trim>
+Hoodie.extend(function (hoodie) {
+  // Init, attach methods to hoodie etc. etc.
+})
+          </code></pre>
+        </section>
+
+        <section>
+          <h2>how to</h2>
+          <h3>(server)</h3>
+          <p>index.js</p>
+          <pre><code data-trim>
+module.exports = function (hoodie, cb) {
+  // Init, when done, call `cb`
+}
+          </code></pre>
+        </section>
+
+        <section>
+          <h2>these are useful</h2>
+          <a href="https://github.com/espy/hoodie-plugin-tutorial">github.com/espy/hoodie-plugin-tutorial</a>
+          <br/>
+          <a href="https://github.com/hoodiehq/hoodie-plugins-api">github.com/hoodiehq/hoodie-plugins-api</a>
+        </section>
+
+        <section>
+          <h1>src</h1>
+          <ul>
+            <li>slides<br/><a href="https://github.com/alanshaw/hoodie-plugins-talk">github.com/alanshaw/hoodie-plugins-talk</a></li>
+            <li>plugins.hood.ie<br/><a href="https://github.com/alanshaw/hoodie-plugins-www">github.com/alanshaw/hoodie-plugins-www</a></li>
+            <li>hoodie-plugin-plugins<br/><a href="https://github.com/alanshaw/hoodie-plugin-plugins">github.com/alanshaw/hoodie-plugin-plugins</a></li>
+            <li>hoodie-plugin-reactive<br/><a href="https://github.com/alanshaw/hoodie-plugin-reactive">github.com/alanshaw/hoodie-plugin-reactive</a></li>
+          </ul>
+        </section>
+
+        <section>
+          <h1>thanks</h1>
+          <a href="https://twitter.com/_alanshaw">@_alanshaw</a>
+        </section>
+
+      </div>
+
+    </div>
+
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.min.js"></script>
+
+    <script>
+
+      // Full list of configuration options available here:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+
+        theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+        transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+        // Optional libraries used to extend on reveal.js
+        dependencies: [
+          { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+          { src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+          { src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+        ]
+      });
+
+    </script>
+
+  </body>
+</html>
